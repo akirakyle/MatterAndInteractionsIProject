@@ -3,7 +3,7 @@ from random import randrange
 
 file = open("dataFile.txt","w")
 
-num = 100
+num = 1000
 particle = []
 class Data:
     def __init__(self, pos, vel):
@@ -14,7 +14,7 @@ for i in xrange(0,num):
     particle.append(Data(vector(randrange(-10,10,1),randrange(-10,10,1),randrange(-10,10,1)), vector(randrange(-10,10,1),randrange(-10,10,1),randrange(-10,10,1))))
 
 iteration = 0
-time = 10
+time = 2
 dt = 0.01
 t = 0
 

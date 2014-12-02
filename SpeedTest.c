@@ -30,7 +30,7 @@ int main (void) {
         float z;
     };
     
-    struct particle {
+    struct particleStruct {
         struct position pos;
         struct velelocity vel;
     };
@@ -40,50 +40,52 @@ int main (void) {
     unsigned long long int num = 1000;
     float dt = 0.01;
     
-    struct particle particleArray[num];
+    struct particleStruct particle[num];
     
     for (int n=0; n<num; n++) {
-        particleArray[n].pos.x = (rand() % 20) - 10;
-        particleArray[n].pos.y = (rand() % 20) - 10;
-        particleArray[n].pos.z = (rand() % 20) - 10;
-        particleArray[n].vel.x = (rand() % 20) - 10;
-        particleArray[n].vel.y = (rand() % 20) - 10;
-        particleArray[n].vel.z = (rand() % 20) - 10;
+        particle[n].pos.x = (rand() % 20) - 10;
+        particle[n].pos.y = (rand() % 20) - 10;
+        particle[n].pos.z = (rand() % 20) - 10;
+        particle[n].vel.x = (rand() % 20) - 10;
+        particle[n].vel.y = (rand() % 20) - 10;
+        particle[n].vel.z = (rand() % 20) - 10;
     }
     
     for (float t=0; t<time; t=t+dt) {
         for (unsigned long long int i=0; i<num; i++) {
-            if (particleArray[i].pos.x > 10 || particleArray[i].pos.x < -10) {
-                particleArray[i].vel.x = -particleArray[i].vel.x;
+            if (particle[i].pos.x > 10 || particle[i].pos.x < -10) {
+                particle[i].vel.x = -particle[i].vel.x;
             }
-            if (particleArray[i].pos.y > 10 || particleArray[i].pos.y < -10) {
-                particleArray[i].vel.y = -particleArray[i].vel.y;
+            if (particle[i].pos.y > 10 || particle[i].pos.y < -10) {
+                particle[i].vel.y = -particle[i].vel.y;
             }
-            if (particleArray[i].pos.z > 10 || particleArray[i].pos.z < -10) {
-                particleArray[i].vel.z = -particleArray[i].vel.z;
+            if (particle[i].pos.z > 10 || particle[i].pos.z < -10) {
+                particle[i].vel.z = -particle[i].vel.z;
             }
             
             for (unsigned long long int j=i; j<num; j++) {
-                if (sqrt(pow((particleArray[i].pos.x - particleArray[j].pos.x), 2) + pow((particleArray[i].pos.y - particleArray[j].pos.y), 2) + pow((particleArray[i].pos.z - particleArray[j].pos.z), 2)) < 1) {
-                    particleArray[i].vel.x = -particleArray[i].vel.x;
-                    particleArray[i].vel.y = -particleArray[i].vel.y;
-                    particleArray[i].vel.y = -particleArray[i].vel.y;
+                if (sqrt(pow((particle[i].pos.x - particle[j].pos.x), 2) + pow((particle[i].pos.y - particle[j].pos.y), 2) + pow((particle[i].pos.z - particle[j].pos.z), 2)) < 1) {
+                    particle[i].vel.x = -particle[i].vel.x;
+                    particle[i].vel.y = -particle[i].vel.y;
+                    particle[i].vel.z = -particle[i].vel.z;
                 }
             }
             
-            particleArray[i].pos.x = particleArray[i].pos.x + particleArray[i].vel.x*dt;
-            particleArray[i].pos.y = particleArray[i].pos.y + particleArray[i].vel.y*dt;
-            particleArray[i].pos.z = particleArray[i].pos.z + particleArray[i].vel.z*dt;
+            particle[i].pos.x = particle[i].pos.x + particle[i].vel.x*dt;
+            particle[i].pos.y = particle[i].pos.y + particle[i].vel.y*dt;
+            particle[i].pos.z = particle[i].pos.z + particle[i].vel.z*dt;
             
             if ((iteration % 20) == 0) {
-                fprintf(file, "%f: (%f,%f,%f)\n",t,particleArray[i].pos.x,particleArray[i].pos.y,particleArray[i].pos.z);
+                fprintf(file, "%f: <%f,%f,%f>\n",t,particle[i].pos.x,particle[i].pos.y,particle[i].pos.z);
             }
             //printf("%d(%f,%f,%f)\n",t,xpos[num],ypos[num],zpos[num]);
             //fprintf(file, "%d: (%f,%f,%f)\n",t,xpos[num],ypos[num],zpos[num]);
         }
-        //if ((iteration % 1000) == 0) {
+        if ((iteration % 20) == 0) {
             printf("interation:%d\n",iteration);
-        //}
+            printf("time:%f\n",t);
+            
+        }
         iteration++;
     }
     
