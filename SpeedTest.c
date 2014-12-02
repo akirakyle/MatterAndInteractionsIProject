@@ -36,7 +36,7 @@ int main (void) {
         struct velelocity vel;
     };
     
-    int time = 2;
+    int time = 5;
     int iteration = 0;
     unsigned long long int num = 1000;
     float dt = 0.01;
@@ -44,9 +44,9 @@ int main (void) {
     struct particleStruct particle[num];
     
     for (int n=0; n<num; n++) {
-        particle[n].pos.x = (rand() % 20) - 10;
-        particle[n].pos.y = (rand() % 20) - 10;
-        particle[n].pos.z = (rand() % 20) - 10;
+        particle[n].pos.x = (rand() % 18) - 9;
+        particle[n].pos.y = (rand() % 18) - 9;
+        particle[n].pos.z = (rand() % 18) - 9;
         particle[n].vel.x = (rand() % 20) - 10;
         particle[n].vel.y = (rand() % 20) - 10;
         particle[n].vel.z = (rand() % 20) - 10;
@@ -54,13 +54,13 @@ int main (void) {
     
     for (float t=0; t<time; t=t+dt) {
         for (unsigned long long int i=0; i<num; i++) {
-            if (particle[i].pos.x > 10 || particle[i].pos.x < -10) {
+            if ((particle[i].pos.x > 10) || (particle[i].pos.x) < -10) {
                 particle[i].vel.x = -particle[i].vel.x;
             }
-            if (particle[i].pos.y > 10 || particle[i].pos.y < -10) {
+            if ((particle[i].pos.y > 10) || (particle[i].pos.y) < -10) {
                 particle[i].vel.y = -particle[i].vel.y;
             }
-            if (particle[i].pos.z > 10 || particle[i].pos.z < -10) {
+            if ((particle[i].pos.z > 10) || (particle[i].pos.z) < -10) {
                 particle[i].vel.z = -particle[i].vel.z;
             }
             
@@ -76,13 +76,13 @@ int main (void) {
             particle[i].pos.y = particle[i].pos.y + particle[i].vel.y*dt;
             particle[i].pos.z = particle[i].pos.z + particle[i].vel.z*dt;
             
-            if ((iteration % 20) == 0) {
-                fprintf(file, "%g: <%g,%g,%g>\n",t,particle[i].pos.x,particle[i].pos.y,particle[i].pos.z);
-            }
+            //if ((iteration % 5) == 0) {
+                fprintf(file, "%f,%f,%f,%f\n",t,particle[i].pos.x,particle[i].pos.y,particle[i].pos.z);
+            //}
             //printf("%d(%f,%f,%f)\n",t,xpos[num],ypos[num],zpos[num]);
             //fprintf(file, "%d: (%f,%f,%f)\n",t,xpos[num],ypos[num],zpos[num]);
         }
-        if ((iteration % 20) == 0) {
+        if ((iteration % 50) == 0) {
             printf("interation:%d\n",iteration);
             printf("time:%g\n",t);
             
