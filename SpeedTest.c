@@ -12,7 +12,7 @@
 
 int main (void) {
     
-    FILE *file = fopen("file.txt", "w");
+    FILE *file = fopen("Developer/MatterAndInteractionsIProject/file.txt", "w");
     if (file == NULL)
     {
         printf("Error opening file!\n");
