@@ -1,7 +1,10 @@
 from visual import *
 from random import randrange
+import time
 
-file = open("dataFile.txt","w")
+start = time.time()
+
+file = open("pyData.txt","w")
 
 num = 1000
 particle = []
@@ -14,11 +17,11 @@ for i in xrange(0,num):
     particle.append(Data(vector(randrange(-10,10,1),randrange(-10,10,1),randrange(-10,10,1)), vector(randrange(-10,10,1),randrange(-10,10,1),randrange(-10,10,1))))
 
 iteration = 0
-time = 2
+totTime = 2
 dt = 0.01
 t = 0
 
-while t < time:
+while t <= totTime+dt:
     for i in xrange(0,num):
         if (particle[i].pos.x > 10) or (particle[i].pos.x < -10):
             particle[i].vel.x = -particle[i].vel.x
@@ -40,3 +43,6 @@ while t < time:
             print iteration
     iteration = iteration + 1
     t = t + dt
+
+end = time.time()
+print end - start

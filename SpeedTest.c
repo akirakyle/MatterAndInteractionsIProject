@@ -9,10 +9,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 int main (void) {
-    
-    FILE *file = fopen("Developer/MatterAndInteractionsIProject/file.txt", "w");
+    clock_t start = clock(), diff;
+    FILE *file = fopen("Developer/MatterAndInteractionsIProject/cData.txt", "w");
     if (file == NULL)
     {
         printf("Error opening file!\n");
@@ -76,14 +77,14 @@ int main (void) {
             particle[i].pos.z = particle[i].pos.z + particle[i].vel.z*dt;
             
             if ((iteration % 20) == 0) {
-                fprintf(file, "%f: <%f,%f,%f>\n",t,particle[i].pos.x,particle[i].pos.y,particle[i].pos.z);
+                fprintf(file, "%g: <%g,%g,%g>\n",t,particle[i].pos.x,particle[i].pos.y,particle[i].pos.z);
             }
             //printf("%d(%f,%f,%f)\n",t,xpos[num],ypos[num],zpos[num]);
             //fprintf(file, "%d: (%f,%f,%f)\n",t,xpos[num],ypos[num],zpos[num]);
         }
         if ((iteration % 20) == 0) {
             printf("interation:%d\n",iteration);
-            printf("time:%f\n",t);
+            printf("time:%g\n",t);
             
         }
         iteration++;
@@ -91,5 +92,9 @@ int main (void) {
     
     fclose(file);
     
+    diff = clock() - start;
+    int msec = diff * 1000 / CLOCKS_PER_SEC;
+    printf("Time taken %d seconds %d milliseconds\n", msec/1000, msec%1000);
+
     return 0;
 }
