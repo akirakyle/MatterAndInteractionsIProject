@@ -1,5 +1,5 @@
 from visual import *
-from random import randrange
+from random import randrange 
 
 data = open("/Users/akyle/Developer/MatterAndInteractionsIProject/gasSimData.txt","r")
 scene.autoscale = False
@@ -20,13 +20,13 @@ while diff:
     if first:
         particle.append(sphere(pos=(currentLineData[1],currentLineData[2],currentLineData[3]), radius=0.2, color=color.blue))
         first = False
-    particle.append(sphere(pos=(currentLineData[1],currentLineData[2],currentLineData[3]), radius=0.2, color=color.red))
+    particle.append(sphere(pos=(currentLineData[1],currentLineData[2],currentLineData[3]), radius=0.1, color=color.red))
     if prevLineTime != currentLineData[0]:
         diff = False
     prevLineTime = currentLineData[0]
 
 while lineNotNull:
-    rate(50)
+    rate(100)
     pos = 0
     diff = True
     while diff:

@@ -36,7 +36,7 @@ int main (void) {
         struct velelocity vel;
     };
     
-    int time = 5;
+    int time = 2;
     int iteration = 0;
     unsigned long long int num = 1000;
     float dt = 0.01;
@@ -64,11 +64,14 @@ int main (void) {
                 particle[i].vel.z = -particle[i].vel.z;
             }
             
-            for (unsigned long long int j=i; j<num; j++) {
+            for (unsigned long long int j=i+1; j<num; j++) {
                 if (sqrt(pow((particle[i].pos.x - particle[j].pos.x), 2) + pow((particle[i].pos.y - particle[j].pos.y), 2) + pow((particle[i].pos.z - particle[j].pos.z), 2)) < 1) {
                     particle[i].vel.x = -particle[i].vel.x;
                     particle[i].vel.y = -particle[i].vel.y;
                     particle[i].vel.z = -particle[i].vel.z;
+                    particle[j].vel.x = -particle[j].vel.x;
+                    particle[j].vel.y = -particle[j].vel.y;
+                    particle[j].vel.z = -particle[j].vel.z;
                 }
             }
             

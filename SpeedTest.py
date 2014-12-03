@@ -32,9 +32,10 @@ while t <= totTime+dt:
         if (particle[i].pos.z > 10) or (particle[i].pos.z < 10):
             particle[i].vel.z = -particle[i].vel.z
 
-        for j in xrange(0,num):
+        for j in xrange(i+1,num):
             if (mag(particle[i].pos-particle[j].pos) < 1):
                 particle[i].vel = -particle[i].vel
+                particle[j].vel = -particle[j].vel
 
         particle[i].pos = particle[i].pos + particle[i].vel*dt
         if ((iteration % 20) == 0):
