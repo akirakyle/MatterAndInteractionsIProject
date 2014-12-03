@@ -32,14 +32,14 @@ int main (void) {
     
     //Constants
     int totalTime = 5;
-    unsigned int num = 500;
+    unsigned int num = 800;
     float dt = 0.01;
-    float k = 1;
-    float cylinderHeight = 50;
-    float cylinderRadius = 3;
-    float velMax = 10;
-    float wallVel = 0;
-    float wallVelTime = 0;
+    float k = 0.001;    //includes k*q1*q2/m
+    float cylinderHeight = 40;
+    float cylinderRadius = 1;
+    float velMax = 30;
+    float wallVel = 20;
+    float wallVelTime = 1;
     
     int iteration = 0;
     
@@ -47,7 +47,7 @@ int main (void) {
     
     //initilization of particle array
     for (int n=0; n<num; n++) {
-        particle[n].pos.x = ((float)rand()/(float)RAND_MAX * cylinderHeight-.1) - (cylinderHeight-.1)/2;
+        particle[n].pos.x = ((float)rand()/(float)RAND_MAX * 2*cylinderHeight-.1) - (cylinderHeight-.05);
         float r = ((float)rand()/(float)RAND_MAX * cylinderRadius-.1);
         float theta = ((float)rand()/(float)RAND_MAX * M_PI);
         particle[n].pos.y = r * cos(theta);
@@ -61,8 +61,18 @@ int main (void) {
     for (float t=0; t<totalTime; t=t+dt) {
         for (unsigned int i=0; i<num; i++) {
             if (sqrt(pow((particle[i].pos.y), 2) + pow((particle[i].pos.z), 2)) > cylinderRadius) {
-                particle[i].vel.y = -particle[i].vel.y;
-                particle[i].vel.z = -particle[i].vel.z;
+                if (particle[i].pos.y > 0) {
+                    particle[i].vel.y = -abs(particle[i].vel.y);
+                }
+                if (particle[i].pos.y < 0) {
+                    particle[i].vel.y = abs(particle[i].vel.y);
+                }
+                if (particle[i].pos.z > 0) {
+                    particle[i].vel.z = -abs(particle[i].vel.z);
+                }
+                if (particle[i].pos.z < 0) {
+                    particle[i].vel.z = abs(particle[i].vel.z);
+                }
             }
             if (t < wallVelTime/2) {
                 if (particle[i].pos.x > cylinderHeight - t*wallVel) {
@@ -72,8 +82,8 @@ int main (void) {
                     particle[i].vel.x = abs(particle[i].vel.x);
                 }
             }
-            if (wallVelTime/2 < t < wallVelTime) {
-                if (particle[i].pos.x > cylinderHeight - t*wallVel) {
+            else if (t < wallVelTime) {
+                if (particle[i].pos.x > cylinderHeight + (t-wallVelTime)*wallVel) {
                     particle[i].vel.x = -abs(particle[i].vel.x) + wallVel;
                 }
                 if (particle[i].pos.x < -cylinderHeight) {
