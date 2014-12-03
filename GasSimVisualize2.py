@@ -1,12 +1,18 @@
 from visual import *
+from visual.graph import *
 from random import randrange 
 
 data = open("/Users/akyle/Developer/MatterAndInteractionsIProject/gasSimData.txt","r")
+scene = display(title = "GasSimVisualize", width = 1000, height = 400, range = 80)
 scene.autoscale = False
+
+gdisplay(x = 0, y = 400, xmin = 0, xmax = 5,ymin = 0, ymax = 500, title = "Number of Particles at wall vs Time",
+xtitle = "Time", ytitle = "Number of Particles")
+drawPt = gcurve(color = color.red)
 
 vscale = 0.1
 particle = []
-pos = 0
+
 prevLineTime = 0
 diff = True
 lineNotNull = True
@@ -26,8 +32,9 @@ while diff:
     prevLineTime = currentLineData[0]
 
 while lineNotNull:
-    rate(100)
+    rate(80)
     pos = 0
+    numParticles = 0
     diff = True
     while diff:
         currentLine = data.readline()
@@ -40,7 +47,12 @@ while lineNotNull:
                 diff = False
             prevLineTime = currentLineData[0]
             pos = pos+1
+
+            if currentLineData[1] < -9:
+                numParticles = numParticles + 1
         else:
             diff = False
             lineNotNull = False
+    
+    drawPt.plot( pos = (currentLineData[0], numParticles) )
 print "done"
