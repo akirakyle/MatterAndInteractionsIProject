@@ -31,15 +31,15 @@ int main (void) {
     };
     
     //Constants
-    int totalTime = 5;
-    unsigned int num = 800;
-    float dt = 0.01;
-    float k = 0.001;    //includes k*q1*q2/m
-    float cylinderHeight = 40;
+    int totalTime = 20; //total time simulation is run for
+    unsigned int num = 100; //total number of particles
+    float dt = 0.01; //time step for numeric integration
+    float k = 0.001;    //constant for electric force which includes k*charge1*charge2/mass
+    float cylinderHeight = 10; //container is cylinder
     float cylinderRadius = 1;
-    float velMax = 30;
-    float wallVel = 20;
-    float wallVelTime = 1;
+    float velMax = 10; //maximum velocity of the particles
+    float wallVel = 8; //the velocity that the wall moves to create sound wave
+    float wallVelTime = 1; //the time that the wall takes to move (forward and back)
     
     int iteration = 0;
     
@@ -114,7 +114,7 @@ int main (void) {
             particle[i].pos.y = particle[i].pos.y + particle[i].vel.y*dt;
             particle[i].pos.z = particle[i].pos.z + particle[i].vel.z*dt;
             
-            fprintf(file, "%f,%f,%f,%f\n",t,particle[i].pos.x,particle[i].pos.y,particle[i].pos.z);
+            fprintf(file, "%f,%f,%f,%f,\n",t,particle[i].pos.x,particle[i].pos.y,particle[i].pos.z);
         }
         if ((iteration % 50) == 0) {
             printf("interation:%d\n",iteration);

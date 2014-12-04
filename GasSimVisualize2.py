@@ -3,7 +3,7 @@ from visual.graph import *
 from random import randrange 
 
 data = open("/Users/akyle/Developer/MatterAndInteractionsIProject/gasSimData.txt","r")
-scene = display(title = "GasSimVisualize", width = 1400, height = 300, range = 42)
+scene = display(title = "GasSimVisualize", width = 1400, height = 300, range = 12)
 scene.autoscale = False
 
 gdisplay(x = 0, y = 400, xmin = 0, xmax = 5,
