@@ -4,7 +4,7 @@ from random import randrange
 
 maxVel = 10
 resolution = .5
-cylinderHeight = 40
+cylinderHeight = 10
 
 particle = []
 velMags = []
@@ -25,7 +25,7 @@ while True:
     drawPos = gcurve(color = color.red)
 
     gdisplay(x = 0, y = 550, width = 700, height = 250, xmin = 0, xmax = 5,
-    ymin = -150, ymax = 150, title = "Avg x velocity of Particles at wall vs Time", xtitle = "Time", ytitle = "Avg x velocity")
+    ymin = -400, ymax = 400, title = "Avg x velocity of Particles at wall vs Time", xtitle = "Time", ytitle = "Avg x velocity")
     drawVel = gcurve(color = color.green)
 
     gdisplay(x = 700, y = 300, width = 700, height = 500, xmin = 0, xmax = 20,

@@ -35,7 +35,11 @@ int main (void) {
     unsigned int num = 400; //total number of particles
     float dt = 0.01; //time step for numeric integration
     float k = 0.0001;    //constant for electric force which includes k*charge1*charge2/mass
+    float wallK = 0.001 //constant for the electric force between the wall and particle. Includes
+                        //particle charge*sheet charge density / 2*epsilon0
     float cylinderHeight = 20; //container is cylinder
+    float cylinderWallPosX = cylinderHeight/2;
+    float cylinderWallNegX = -cylinderHeight/2;
     float cylinderRadius = 1;
     float velMax = 20; //maximum velocity of the particles
     float wallVel = 8; //the velocity that the wall moves to create sound wave
@@ -59,7 +63,23 @@ int main (void) {
     
     //start calculations
     for (float t=0; t<totalTime; t=t+dt) {
+        
+        int cycle = (int) floor(t/period);
+        if ( cycle % 2 == 0) {
+            cylinderWallPosX = cylinderHeight - (t-cycle*period)*wallVel;
+        }
+        else {
+            cylinderWallPosX = cylinderHeight + (t-period-cycle*period)*wallVel;
+            wallVel = -wallVel;
+        }
+        
         for (unsigned int i=0; i<num; i++) {
+            if (particle[i].pos.x > cylinderWallPosX) {
+                particle[i].vel.x = -abs(particle[i].vel.x) - wallVel;
+            }
+            if (particle[i].pos.x < cylinderWallNegX) {
+                particle[i].vel.x = abs(particle[i].vel.x);
+            }
             if (sqrt(pow((particle[i].pos.y), 2) + pow((particle[i].pos.z), 2)) > cylinderRadius) {
                 if (particle[i].pos.y > 0) {
                     particle[i].vel.y = -abs(particle[i].vel.y);
@@ -74,27 +94,28 @@ int main (void) {
                     particle[i].vel.z = abs(particle[i].vel.z);
                 }
             }
-            int cycle = (int) floor(t/period);
-            if ( cycle % 2 == 0) {
-                if (particle[i].pos.x > cylinderHeight - (t-cycle*period)*wallVel) {
-                    particle[i].vel.x = -abs(particle[i].vel.x) - wallVel;
-                }
-                if (particle[i].pos.x < -cylinderHeight) {
-                    particle[i].vel.x = abs(particle[i].vel.x);
-                }
-            }
-            else {
-                if (particle[i].pos.x > cylinderHeight + (t-period-cycle*period)*wallVel) {
-                    particle[i].vel.x = -abs(particle[i].vel.x) + wallVel;
-                }
-                if (particle[i].pos.x < -cylinderHeight) {
-                    particle[i].vel.x = abs(particle[i].vel.x);
-                }
-            }
+            
             for (unsigned int j=i+1; j<num; j++) {
-                float forceX = k*(particle[i].pos.x - particle[j].pos.x)/pow(sqrt(pow((particle[i].pos.x - particle[j].pos.x), 2) + pow((particle[i].pos.y - particle[j].pos.y), 2) + pow((particle[i].pos.z - particle[j].pos.z), 2)),3) + k*(particle[i].pos.x - particle[j].pos.x)/pow(sqrt(pow((particle[i].pos.x - particle[j].pos.x), 2) + pow((particle[i].pos.y - particle[j].pos.y), 2) + pow((particle[i].pos.z - particle[j].pos.z), 2)),3);
-                float forceY =k*(particle[i].pos.y - particle[j].pos.y)/pow(sqrt(pow((particle[i].pos.x - particle[j].pos.x), 2) + pow((particle[i].pos.y - particle[j].pos.y), 2) + pow((particle[i].pos.z - particle[j].pos.z), 2)),3);
-                float forceZ = k*(particle[i].pos.z - particle[j].pos.z)/pow(sqrt(pow((particle[i].pos.x - particle[j].pos.x), 2) + pow((particle[i].pos.y - particle[j].pos.y), 2) + pow((particle[i].pos.z - particle[j].pos.z), 2)),3);
+                float forceX =
+                k*(particle[i].pos.x - particle[j].pos.x)/
+                pow(sqrt(pow((particle[i].pos.x - particle[j].pos.x), 2) +
+                         pow((particle[i].pos.y - particle[j].pos.y), 2) +
+                         pow((particle[i].pos.z - particle[j].pos.z), 2)),3) +
+                k/(particle[i].pos.x - cylinderWallPosX) +
+                k/(particle[i].pos.x - cylinderWallNegX);
+                
+                float forceY =
+                k*(particle[i].pos.y - particle[j].pos.y)/
+                pow(sqrt(pow((particle[i].pos.x - particle[j].pos.x), 2) +
+                         pow((particle[i].pos.y - particle[j].pos.y), 2) +
+                         pow((particle[i].pos.z - particle[j].pos.z), 2)),3);
+                
+                float forceZ =
+                k*(particle[i].pos.z - particle[j].pos.z)/
+                pow(sqrt(pow((particle[i].pos.x - particle[j].pos.x), 2) +
+                         pow((particle[i].pos.y - particle[j].pos.y), 2) +
+                         pow((particle[i].pos.z - particle[j].pos.z), 2)),3);
+                
                 particle[i].vel.x = particle[i].vel.x + forceX*dt;
                 particle[i].vel.y = particle[i].vel.y + forceY*dt;
                 particle[i].vel.z = particle[i].vel.z + forceZ*dt;
