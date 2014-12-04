@@ -23,7 +23,7 @@ scene.autoscale = True
 for i in xrange(0,numBalls):
     ball.append(sphere(pos=((i-(numBalls / 2))/1e7,0,0), radius= 139e-12, color=color.cyan))
 # Check the spacing later and try to get it to accurate density of air
-    ball[i].velocity = vector(randrange(-30,30,1),0,0)
+    ball[i].velocity = vector(randrange(-3,3,1),0,0)
 # Who knows if this actually should be randomized, but try to start it with more
 # accurate values
     ball[i].mass = nuclmass * 14
