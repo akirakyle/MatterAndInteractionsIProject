@@ -3,8 +3,8 @@ from visual.graph import *
 from random import randrange
 
 maxVel = 10
-resolution = .2
-cylinderHeight = 120
+resolution = .4
+cylinderHeight = 500
 time = 10
 
 particle = []
@@ -31,11 +31,11 @@ while True:
     drawVel = gcurve(color = color.green)
 
     gdisplay(x = 0, y = 300, width = 700, height = 250, xmin = 0, xmax = time,
-    ymin = -400, ymax = 400, title = "total velocity of all Particles vs Time", xtitle = "Time", ytitle = "sum of velocities")
+    ymin = -0, ymax = 100000, title = "total velocity of all Particles vs Time", xtitle = "Time", ytitle = "sum of velocities")
     drawTemp = gcurve(color = color.orange)
 
-    gdisplay(x = 700, y = 300, width = 700, height = 500, xmin = 0, xmax = 20,
-    ymin = 0, ymax = 100, title = "Boltzmann Distribution", xtitle = "particle velocity", ytitle = "Number of Particles")
+    gdisplay(x = 700, y = 300, width = 700, height = 500, xmin = 0, xmax = 30,
+    ymin = 0, ymax = 50, title = "Boltzmann Distribution", xtitle = "particle velocity", ytitle = "Number of Particles")
     drawBoltzman = ghistogram(bins = arange(0,maxVel*3,resolution), color = color.blue)
 
     while diff:
@@ -46,6 +46,7 @@ while True:
     
         if pos == 30:
             particle.append(sphere(pos=(currentLineData[1],currentLineData[2],currentLineData[3]), radius=1, color=color.blue))
+            particle[-1].trail = curve(color=particle[-1].color)
             first = False
         else:
             particle.append(sphere(pos=(currentLineData[1],currentLineData[2],currentLineData[3]), radius=0.5, color=color.red))
@@ -57,7 +58,7 @@ while True:
             diff = False
         prevLineTime = currentLineData[0]
         pos = pos +1
-    print "number of particles:"+str(len(particle))
+    print "number of particles:"+str(len(particle))   
 
     lineNotNull = True
     while lineNotNull:
@@ -74,6 +75,7 @@ while True:
                     currentLineData[i] = float(currentLineData[i])
                 particle[pos].pos = vector(currentLineData[1],currentLineData[2],currentLineData[3])
                 particle[pos].vel = vector(currentLineData[4],currentLineData[5],currentLineData[6])
+                print particle[pos].vel
                 
                 if prevLineTime != currentLineData[0]:
                     diff = False
@@ -82,7 +84,7 @@ while True:
     
                 if currentLineData[1] < 1 and currentLineData[1] > -1:
                     numParticles = numParticles + 1
-                if currentLineData[1] < 1 and currentLineData[1] > -1:
+                if currentLineData[1] < 2 and currentLineData[1] > -2:
                     avgVel = avgVel + currentLineData[4]
     
                 velMags[pos] = mag(particle[pos].vel)
@@ -90,7 +92,8 @@ while True:
             else:
                 diff = False
                 lineNotNull = False
-        
+
+        particle[30].trail.append(pos=particle[30].pos)
         drawPos.plot( pos = (currentLineData[0], numParticles) )
         drawVel.plot( pos = (currentLineData[0], avgVel) )
         drawTemp.plot( pos = (currentLineData[0], sum(velMags)))

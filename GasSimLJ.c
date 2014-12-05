@@ -32,18 +32,18 @@ int main (void) {
     const unsigned int num = 400; //total number of particles
     const int totalTime = 10; //total time simulation is run for
     const float dt = 0.01; //time step for numeric integration
-    const float epsilon = 0.001;    //depth of Lennard Jones potential well (affects magnitude of interatomic force)
+    const float epsilon = 100;    //depth of Lennard Jones potential well (affects magnitude of interatomic force)
     const float forceDistance = 0.39; //atomic radius* 2^(1/6) (nm)
     //container is cylinder
     const float volume = 37.2*num; // in nm^3 (note: 22.4L/mol = 37.2nm^3/particle)
-    const float hTorRaio = 150; //height/radius ratio
+    const float hTorRaio = 600; //height/radius ratio
     
-    const float temperature = 273; //temperature in Kelvin
+    const float temperature = 4.5; //e-19 temperature in Kelvin
     const float mass = 28; //particle mass (diatomic nitrogen) in amu
-    const float kb; //Boltzman constant 8.3148×10^21 amu  nm^2/(s^2*K)  (atomic mass unit (chemical scale) nanometers squared per second squared kelvin)
-    const float avgVelInit = 20; //sqrt(3*kb*temperature/mass); //initaizes velocity of the particles (Given by temp) (nm/sec)
+    const float kb = 8.3148; //e21 Boltzman constant 8.3148×10^21 amu nm^2/(s^2*K)  (atomic mass unit (chemical scale) nanometers squared per second squared kelvin)
+    const float avgVelInit = sqrt(3*kb*temperature/mass); //initaizes velocity of the particles (Given by temp) (nm/sec)
     //wall that creates pressure wave
-    const float wallVel = 15; //the velocity that the wall moves to create sound wave
+    const float wallVel = 40; //the velocity that the wall moves to create sound wave
     const float period = .5; //the time that the wall takes to move (either forward or back)
                             //actually like a half period then
     //Calculated constants
@@ -121,23 +121,29 @@ int main (void) {
                 particle[j].vel.y = particle[j].vel.y - forceY*dt;
                 particle[j].vel.z = particle[j].vel.z - forceZ*dt;
                 if (particle[i].vel.x > maxVel) {
-                    //printf("%f\n",particle[i].vel.x);
+                    //printf("vel.x:%f\n",particle[i].vel.x);
                     particle[i].vel.x = maxVel;
+                    printf("vel.x: %f\n",particle[i].vel.x);
                 }
                 if (particle[i].vel.y > maxVel) {
                     particle[i].vel.y = maxVel;
+                    printf("vel.y: %f\n",particle[i].vel.y);
                 }
                 if (particle[i].vel.z > maxVel) {
                     particle[i].vel.z = maxVel;
+                    printf("vel.z: %f\n",particle[i].vel.z);
                 }
                 if (particle[i].vel.x < -maxVel) {
                     particle[i].vel.x = -maxVel;
+                    printf("vel.x:%f\n",particle[i].vel.x);
                 }
                 if (particle[i].vel.y < -maxVel) {
                     particle[i].vel.y = -maxVel;
+                    printf("vel.y:%f\n",particle[i].vel.y);
                 }
                 if (particle[i].vel.z < -maxVel) {
                     particle[i].vel.z = -maxVel;
+                    printf("vel.z:%f\n",particle[i].vel.z);
                 }
             }
             
