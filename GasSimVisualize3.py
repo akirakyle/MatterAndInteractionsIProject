@@ -3,9 +3,9 @@ from visual.graph import *
 from random import randrange
 
 maxVel = 10
-resolution = .4
-cylinderHeight = 500
-time = 10
+resolution = .5
+cylinderHeight = 200
+time = 20
 
 particle = []
 velMags = []
@@ -16,7 +16,7 @@ first = True
 
 while True:
 
-    data = open("/Users/akyle/Developer/MatterAndInteractionsIProject/gasSimData.txt","r")
+    data = open("/Users/akyle/Developer/MatterAndInteractionsIProject/Data/gasSimData2.txt","r")
     data.seek(0)
     scene.autoscale = False
     scene = display(title = "GasSimVisualize", width = 1400, height = 300, range = cylinderHeight/2+2)
@@ -26,15 +26,15 @@ while True:
     ymin = 0, ymax = 50, title = "Number of Particles at wall vs Time", xtitle = "Time", ytitle = "Number of Particles")
     drawPos = gcurve(color = color.red)
 
-    gdisplay(x = 0, y = 550, width = 700, height = 250, xmin = 0, xmax = time,
-    ymin = 0, ymax = 300, title = "Avg x velocity of Particles at wall vs Time", xtitle = "Time", ytitle = "Avg x velocity")
+    gdisplay(x = 0, y = 550, width = 700, height = 400, xmin = 0, xmax = time,
+    ymin = -150, ymax = 150, title = "Avg x velocity of Particles at wall vs Time", xtitle = "Time", ytitle = "Avg x velocity")
     drawVel = gcurve(color = color.green)
 
     gdisplay(x = 0, y = 300, width = 700, height = 250, xmin = 0, xmax = time,
     ymin = -0, ymax = 100000, title = "total velocity of all Particles vs Time", xtitle = "Time", ytitle = "sum of velocities")
     drawTemp = gcurve(color = color.orange)
 
-    gdisplay(x = 700, y = 300, width = 700, height = 500, xmin = 0, xmax = 30,
+    gdisplay(x = 700, y = 300, width = 700, height = 500, xmin = 0, xmax = 20,
     ymin = 0, ymax = 50, title = "Boltzmann Distribution", xtitle = "particle velocity", ytitle = "Number of Particles")
     drawBoltzman = ghistogram(bins = arange(0,maxVel*3,resolution), color = color.blue)
 
@@ -75,7 +75,6 @@ while True:
                     currentLineData[i] = float(currentLineData[i])
                 particle[pos].pos = vector(currentLineData[1],currentLineData[2],currentLineData[3])
                 particle[pos].vel = vector(currentLineData[4],currentLineData[5],currentLineData[6])
-                print particle[pos].vel
                 
                 if prevLineTime != currentLineData[0]:
                     diff = False
@@ -84,7 +83,7 @@ while True:
     
                 if currentLineData[1] < 1 and currentLineData[1] > -1:
                     numParticles = numParticles + 1
-                if currentLineData[1] < 2 and currentLineData[1] > -2:
+                if currentLineData[1] < 1 and currentLineData[1] > -1:
                     avgVel = avgVel + currentLineData[4]
     
                 velMags[pos] = mag(particle[pos].vel)

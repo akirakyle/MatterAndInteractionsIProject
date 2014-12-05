@@ -7,7 +7,7 @@
 int main (void) {
     //Setup
     clock_t start = clock(), diff;
-    FILE *file = fopen("Developer/MatterAndInteractionsIProject/gasSimData.txt", "w");
+    FILE *file = fopen("Developer/MatterAndInteractionsIProject/Data/gasSimData.txt", "w");
     if (file == NULL)
     {
         printf("Error opening file!\n");
@@ -30,20 +30,20 @@ int main (void) {
     
     //Constants
     const unsigned int num = 400; //total number of particles
-    const int totalTime = 10; //total time simulation is run for
+    const int totalTime = 140; //total time simulation is run for
     const float dt = 0.01; //time step for numeric integration
-    const float epsilon = 100;    //depth of Lennard Jones potential well (affects magnitude of interatomic force)
+    const float epsilon = 10;    //depth of Lennard Jones potential well (affects magnitude of interatomic force)
     const float forceDistance = 0.39; //atomic radius* 2^(1/6) (nm)
     //container is cylinder
     const float volume = 37.2*num; // in nm^3 (note: 22.4L/mol = 37.2nm^3/particle)
     const float hTorRaio = 600; //height/radius ratio
     
-    const float temperature = 4.5; //e-19 temperature in Kelvin
+    const float temperature = .01; //e-19 temperature in Kelvin
     const float mass = 28; //particle mass (diatomic nitrogen) in amu
     const float kb = 8.3148; //e21 Boltzman constant 8.3148×10^21 amu nm^2/(s^2*K)  (atomic mass unit (chemical scale) nanometers squared per second squared kelvin)
     const float avgVelInit = sqrt(3*kb*temperature/mass); //initaizes velocity of the particles (Given by temp) (nm/sec)
     //wall that creates pressure wave
-    const float wallVel = 40; //the velocity that the wall moves to create sound wave
+    const float wallVel = 0; //the velocity that the wall moves to create sound wave
     const float period = .5; //the time that the wall takes to move (either forward or back)
                             //actually like a half period then
     //Calculated constants
@@ -89,7 +89,7 @@ int main (void) {
             cylinderWallPosX = cylinderHeight/2 + (t-period-cycle*period)*wallVel;
         }
         
-        for (unsigned int i=0; i<num; i++) {
+        for (unsigned int i=0; i<num-1; i++) {
             if (particle[i].pos.x > cylinderWallPosX) {
                 particle[i].vel.x = -abs(particle[i].vel.x) - wallVel;
             }
@@ -123,27 +123,21 @@ int main (void) {
                 if (particle[i].vel.x > maxVel) {
                     //printf("vel.x:%f\n",particle[i].vel.x);
                     particle[i].vel.x = maxVel;
-                    printf("vel.x: %f\n",particle[i].vel.x);
                 }
                 if (particle[i].vel.y > maxVel) {
                     particle[i].vel.y = maxVel;
-                    printf("vel.y: %f\n",particle[i].vel.y);
                 }
                 if (particle[i].vel.z > maxVel) {
                     particle[i].vel.z = maxVel;
-                    printf("vel.z: %f\n",particle[i].vel.z);
                 }
                 if (particle[i].vel.x < -maxVel) {
                     particle[i].vel.x = -maxVel;
-                    printf("vel.x:%f\n",particle[i].vel.x);
                 }
                 if (particle[i].vel.y < -maxVel) {
                     particle[i].vel.y = -maxVel;
-                    printf("vel.y:%f\n",particle[i].vel.y);
                 }
                 if (particle[i].vel.z < -maxVel) {
                     particle[i].vel.z = -maxVel;
-                    printf("vel.z:%f\n",particle[i].vel.z);
                 }
             }
             
