@@ -3,8 +3,9 @@ from visual.graph import *
 from random import randrange
 
 maxVel = 10
-resolution = .5
-cylinderHeight = 10
+resolution = .2
+cylinderHeight = 120
+time = 10
 
 particle = []
 velMags = []
@@ -17,16 +18,21 @@ while True:
 
     data = open("/Users/akyle/Developer/MatterAndInteractionsIProject/gasSimData.txt","r")
     data.seek(0)
-    scene = display(title = "GasSimVisualize", width = 1400, height = 300, range = cylinderHeight+2)
+    scene.autoscale = False
+    scene = display(title = "GasSimVisualize", width = 1400, height = 300, range = cylinderHeight/2+2)
     scene.autoscale = False
 
-    gdisplay(x = 0, y = 300, width = 700, height = 250, xmin = 0, xmax = 5,
-    ymin = 0, ymax = 150, title = "Number of Particles at wall vs Time", xtitle = "Time", ytitle = "Number of Particles")
+    gdisplay(x = 0, y = 700, width = 700, height = 150, xmin = 0, xmax = time,
+    ymin = 0, ymax = 50, title = "Number of Particles at wall vs Time", xtitle = "Time", ytitle = "Number of Particles")
     drawPos = gcurve(color = color.red)
 
-    gdisplay(x = 0, y = 550, width = 700, height = 250, xmin = 0, xmax = 5,
-    ymin = -400, ymax = 400, title = "Avg x velocity of Particles at wall vs Time", xtitle = "Time", ytitle = "Avg x velocity")
+    gdisplay(x = 0, y = 550, width = 700, height = 250, xmin = 0, xmax = time,
+    ymin = 0, ymax = 300, title = "Avg x velocity of Particles at wall vs Time", xtitle = "Time", ytitle = "Avg x velocity")
     drawVel = gcurve(color = color.green)
+
+    gdisplay(x = 0, y = 300, width = 700, height = 250, xmin = 0, xmax = time,
+    ymin = -400, ymax = 400, title = "total velocity of all Particles vs Time", xtitle = "Time", ytitle = "sum of velocities")
+    drawTemp = gcurve(color = color.orange)
 
     gdisplay(x = 700, y = 300, width = 700, height = 500, xmin = 0, xmax = 20,
     ymin = 0, ymax = 100, title = "Boltzmann Distribution", xtitle = "particle velocity", ytitle = "Number of Particles")
@@ -39,10 +45,10 @@ while True:
             currentLineData[i] = float(currentLineData[i])
     
         if pos == 30:
-            particle.append(sphere(pos=(currentLineData[1],currentLineData[2],currentLineData[3]), radius=0.2, color=color.blue))
+            particle.append(sphere(pos=(currentLineData[1],currentLineData[2],currentLineData[3]), radius=1, color=color.blue))
             first = False
         else:
-            particle.append(sphere(pos=(currentLineData[1],currentLineData[2],currentLineData[3]), radius=0.1, color=color.red))
+            particle.append(sphere(pos=(currentLineData[1],currentLineData[2],currentLineData[3]), radius=0.5, color=color.red))
     
         particle[-1].vel = vector(currentLineData[4],currentLineData[5],currentLineData[6])
         velMags.append(mag(particle[-1].vel))
@@ -55,7 +61,7 @@ while True:
 
     lineNotNull = True
     while lineNotNull:
-        rate(100)
+        rate(1000)
         pos = 0
         numParticles = 0
         avgVel = 0
@@ -87,6 +93,7 @@ while True:
         
         drawPos.plot( pos = (currentLineData[0], numParticles) )
         drawVel.plot( pos = (currentLineData[0], avgVel) )
+        drawTemp.plot( pos = (currentLineData[0], sum(velMags)))
         drawBoltzman.plot(data = velMags)
 
     print "done, press enter to restart"
