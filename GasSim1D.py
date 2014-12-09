@@ -40,10 +40,10 @@ while t < 1000:
     rate(200)
     for i in xrange(0,numBalls):
         for j in xrange(i+1,numBalls):
-            print i
-            print ball[i].pos.x
-            print j
-            print ball[j].pos.x
+#            print i
+#            print ball[i].pos.x
+#            print j
+#            print ball[j].pos.x
             ball[j].force = vector((((k * ball[i].charge**2)/ ((ball[i].pos.x -ball[j].pos.x)**2))),0,0) #* (norm(ball[i].pos - ball[j].pos))
             ball[j].momentum = ball[i].momentum + ball[j].force * dt
             ball[j].pos = (ball[i].pos + ball[j].momentum * dt) / ball[i].mass
