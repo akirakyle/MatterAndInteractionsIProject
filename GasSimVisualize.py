@@ -11,7 +11,7 @@ diff = True
 
 while True:
 
-    data = open("/Users/akyle/Developer/MatterAndInteractionsIProject/Data/gasSimData2.txt","r")
+    data = open("/Users/akyle/Developer/MatterAndInteractionsIProject/Data/gasSimData.txt","r")
     data.seek(0)
     currentLine = data.readline()
     currentLineData = currentLine.split(",")

@@ -29,8 +29,8 @@ int main (void) {
     };
     
     //Constants
-    const unsigned int num = 200; //total number of particles
-    const int totalTime = 80; //total time simulation is run for
+    const unsigned int num = 500; //total number of particles
+    const int totalTime = 20; //total time simulation is run for
     const float dt = 0.01; //time step for numeric integration
     const float epsilon = 10;    //depth of Lennard Jones potential well (affects magnitude of interatomic force)
     const float forceDistance = 0.39; //atomic radius* 2^(1/6) (nm)
@@ -38,12 +38,12 @@ int main (void) {
     const float volume = 37.2*num; // in nm^3 (note: 22.4L/mol = 37.2nm^3/particle)
     const float hTorRaio = 100; //height/radius ratio
     
-    const float temperature = .1; //e-19 temperature in Kelvin
+    const float temperature = 20; //e-19 temperature in Kelvin
     const float mass = 28; //particle mass (diatomic nitrogen) in amu
     const float kb = 8.3148; //e21 Boltzman constant 8.3148×10^21 amu nm^2/(s^2*K)  (atomic mass unit (chemical scale) nanometers squared per second squared kelvin)
     const float avgVelInit = sqrt(3*kb*temperature/mass); //initaizes velocity of the particles (Given by temp) (nm/sec)
     //wall that creates pressure wave
-    const float wallVel = 0; //the velocity that the wall moves to create sound wave
+    const float wallVel = 10; //the velocity that the wall moves to create sound wave
     const float period = .5; //the time that the wall takes to move (either forward or back)
                             //actually like a half period then
     //Calculated constants
