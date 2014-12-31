@@ -17,7 +17,7 @@ GasSimWCA.c – using a Weeks-Chandler-Andersen potential (essentially just a mo
 
 GasSimVisualize.py – the program used to visualize all this data in neat animations using the vPython library.
 
-SpeedTest.c and SpeedTest.py – used for testing the program's speed in C versus Python. From these it was ound that for 1000 particles and 200 iterations, the program written in C ran in about 12 seconds whereas same program written in Python ran in about 90 seconds. Clearly C is much more efficient.
+SpeedTest.c and SpeedTest.py – used for testing the program's speed in C versus Python. From these it was ound that for 1000 particles and 200 iterations, the program written in C ran in about 12 seconds whereas same program written in Python ran in about 90 seconds. Clearly C is much more efficient. Note that if compiling with gcc, using the flag -O2 significantly improves the program's performance. 
 
 
 Data is a folder for the Data outputted by the c programs for the python program to visualize. Note that the file paths to the Data files for all these programs are absoulte.
